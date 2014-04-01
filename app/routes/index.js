@@ -2,59 +2,59 @@
 module.exports = function(app) {
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Auth Middleware & Protected Areas
-	|--------------------------------------------------------------------------
-	*/
+     /*
+     |--------------------------------------------------------------------------
+     | Auth Middleware & Protected Areas
+     |--------------------------------------------------------------------------
+     */
 
-	var Authed = function(req, res, next) {
-		if (req.isAuthenticated()) { return next(); }
-		res.redirect('/');
-	}
+     var Authed = function(req, res, next) {
+          if (req.isAuthenticated()) { return next(); }
+          res.redirect('/');
+     }
 
-	app.all('/admin/*', Authed);
-		app.use(function(req, res, next){
-		res.locals.admin = req.user;
-		next();
-	});
-
-
-	/*
-	|--------------------------------------------------------------------------
-	| Index
-	|--------------------------------------------------------------------------
-	*/
-
-	app.get('/', function(req, res) {
-		res.render('index');
-	});
-
-	app.get('/admin', function(req, res) {
-		res.render('admin/index', { user : req.user });
-	});
+     app.all('/admin/*', Authed);
+          app.use(function(req, res, next){
+          res.locals.admin = req.user;
+          next();
+     });
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Logout
-	|--------------------------------------------------------------------------
-	*/
+     /*
+     |--------------------------------------------------------------------------
+     | Index
+     |--------------------------------------------------------------------------
+     */
 
-	app.get('/logout', function(req, res){
-		req.logout();
-		res.redirect('/');
-	});
+     app.get('/', function(req, res) {
+          res.render('index');
+     });
+
+     app.get('/admin', function(req, res) {
+          res.render('admin/index', { user : req.user });
+     });
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| Auth Failures
-	|--------------------------------------------------------------------------
-	*/
+     /*
+     |--------------------------------------------------------------------------
+     | Logout
+     |--------------------------------------------------------------------------
+     */
 
-	app.get('/failure', function(req, res) {
-		res.send(500);
-	});
+     app.get('/logout', function(req, res){
+          req.logout();
+          res.redirect('/');
+     });
+
+
+     /*
+     |--------------------------------------------------------------------------
+     | Auth Failures
+     |--------------------------------------------------------------------------
+     */
+
+     app.get('/failure', function(req, res) {
+          res.send(500);
+     });
 
 };

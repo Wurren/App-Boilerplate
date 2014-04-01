@@ -1,7 +1,7 @@
-var 	mongoose 	= require('mongoose'),
-	Schema 	= mongoose.Schema,
-	bcrypt 	= require('bcrypt'),
-	SALT  	= 10;
+var  mongoose  = require('mongoose'),
+     Schema    = mongoose.Schema,
+     bcrypt    = require('bcrypt'),
+     SALT      = 10;
 
 /*
 |--------------------------------------------------------------------------
@@ -10,20 +10,20 @@ var 	mongoose 	= require('mongoose'),
 */
 
 var userSchema = new Schema({
-	firstName: 	{ type: String },
-	lastName: 	{ type: String },
-	email: 		{ type: String },
-	password: 	{ type: String },
-	token: 		{ type: String },
-	secret: 		{ type: String },
-	created_at: 	{ type: Date, default: Date.now },
-	updated_at: 	{ type: Date, default: Date.now }
+     firstName:     { type: String },
+     lastName:      { type: String },
+     email:         { type: String },
+     password:      { type: String },
+     token:         { type: String },
+     secret:        { type: String },
+     created_at:    { type: Date, default: Date.now },
+     updated_at:    { type: Date, default: Date.now }
 });
 
 userSchema.pre('save', function(next){
-	this.updated_at = new Date;
-	if ( !this.created_at ) this.created_at = new Date;
-	next();
+     this.updated_at = new Date;
+     if ( !this.created_at ) this.created_at = new Date;
+     next();
 });
 
 
@@ -35,27 +35,27 @@ userSchema.pre('save', function(next){
 */
 
 userSchema.pre('save', function(next) {
-	var user = this;
+     var user = this;
 
-	if (!user.isModified('password')) return next();
+     if (!user.isModified('password')) return next();
 
-	bcrypt.genSalt(SALT, function(err, salt) {
-		if (err) return next(err);
+     bcrypt.genSalt(SALT, function(err, salt) {
+          if (err) return next(err);
 
-		bcrypt.hash(user.password, salt, function(err, hash) {
-			if (err) return next(err);
-			user.password = hash;
-			next();
-		});
-	});
+          bcrypt.hash(user.password, salt, function(err, hash) {
+               if (err) return next(err);
+               user.password = hash;
+               next();
+          });
+     });
 
 });
 
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
-	bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-	if (err) return cb(err);
-		cb(null, isMatch);
-	});
+     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+     if (err) return cb(err);
+          cb(null, isMatch);
+     });
 };
 
 

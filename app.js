@@ -5,13 +5,13 @@
 |--------------------------------------------------------------------------
 */
 
-var 	express 		= require('express'),
-	app 			= express(),
-	fs 			= require('fs'),
-	_ 			= require('lodash'),
-	mongoose 		= require('mongoose'),
-	passport 		= require('passport'),
-	swig 		= require('swig');
+var  express        = require('express'),
+     app            = express(),
+     fs             = require('fs'),
+     _              = require('lodash'),
+     mongoose       = require('mongoose'),
+     passport       = require('passport'),
+     swig           = require('swig');
 
 
 /*
@@ -23,9 +23,9 @@ var 	express 		= require('express'),
 var env = process.env.NODE_ENV || 'development';
 
 if ( env ==='development' ) {
-	var config = require('./app/config/development.js');
+     var config = require('./app/config/development.js');
 } else {
-	var config = require('./app/config/production.js');
+     var config = require('./app/config/production.js');
 }
 
 
@@ -70,23 +70,23 @@ app.use(require('express-promise')());
 */
 
 var mappings = [
-	{ method: "index", 		verb: "get", 	route: "/" },
-	{ method: "new", 		verb: "get",	route: "/new" },
-	{ method: "create", 	verb: "post", 	route: "/" },
-	{ method: "show", 		verb: "get", 	route: "/:id" },
-	{ method: "edit", 		verb: "get", 	route: "/:id/edit" },	
-	{ method: "update", 	verb: "put", 	route: "/:id" },
-	{ method: "destroy",	verb: "delete", route: "/:id"}
+     { method: "index",       verb: "get",   route: "/" },
+     { method: "new",         verb: "get",   route: "/new" },
+     { method: "create",      verb: "post",  route: "/" },
+     { method: "show",        verb: "get",   route: "/:id" },
+     { method: "edit",        verb: "get",   route: "/:id/edit" },    
+     { method: "update",      verb: "put",   route: "/:id" },
+     { method: "destroy",     verb: "delete", route: "/:id"}
 ];
 
 
 _.each(fs.readdirSync('./app/controllers/'), function(file, index) {
-	var router 		= express.Router(),
-	    controller 	= require('./app/controllers/' + file);
-	_.each(mappings, function(mapping, index) {
-		if ( typeof controller[mapping.method] == 'function' ) router[mapping.verb](mapping.route, controller[mapping.method]);
-	});
-	app.use('/' + file.slice(0, -3), router);
+     var router          = express.Router(),
+         controller      = require('./app/controllers/' + file);
+     _.each(mappings, function(mapping, index) {
+          if ( typeof controller[mapping.method] == 'function' ) router[mapping.verb](mapping.route, controller[mapping.method]);
+     });
+     app.use('/' + file.slice(0, -3), router);
 });
 
 
@@ -97,12 +97,12 @@ _.each(fs.readdirSync('./app/controllers/'), function(file, index) {
 */
 
 var routes = [
-	'index',
-	'auth'
+     'index',
+     'auth'
 ];
 
 _.each(routes, function(file, index) {
-	require('./app/routes/' + file)(app);
+     require('./app/routes/' + file)(app);
 });
 
 
@@ -113,21 +113,21 @@ _.each(routes, function(file, index) {
 |--------------------------------------------------------------------------
 */
 
-var User 	= require('./app/models/user');
+var User  = require('./app/models/user');
 
 _.each(config.authMethods, function(file, index) {
-	require('./app/config/auth/' + file)(passport, User, config);
+     require('./app/config/auth/' + file)(passport, User, config);
 });
 
 passport.serializeUser(function(user, done) {
-	done(null, user._id);
+     done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-	User.findOne({ _id: id }).populate('restaurant').exec(function (err, user) {
-		if(!err) done(null, user);
-		else done(err, null)  
-	});
+     User.findOne({ _id: id }).populate('restaurant').exec(function (err, user) {
+          if(!err) done(null, user);
+          else done(err, null)  
+     });
 });
 
 
