@@ -1,0 +1,43 @@
+{
+	"name": "ExpressBoilerplate",
+	"version": "0.0.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Wurren/Express-Boilerplate.git"
+	},
+	"author": "@warrenhaskins",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Wurren/Express-Boilerplate/issues"
+	},
+	"homepage": "https://github.com/Wurren/Express-Boilerplate",
+	"dependencies" : {
+		"express" : "~4.0.0",
+		"body-parser" : "*",
+		"method-override" : "*",
+		"cookie-parser" : "*",
+		"express-session" : "*",
+		"connect-flash" : "*",
+		"swig" : "*",
+		"lodash" : "*",
+		"mongoose" : "*",
+		"express-promise" : "*",
+
+		"passport" : "*",
+		"passport-twitter" : "*",
+		"passport-facebook" : "*",
+		"passport-local" : "*",
+		"bcrypt" : "*"
+	},
+	"devDependencies": {
+		"gulp": "*",
+		"gulp-watch" : "*",
+		"gulp-less": "*",
+		"gulp-minify-css": "*",
+		"gulp-notify": "*",
+		"gulp-uglify": "*",
+		"gulp-concat": "*",
+		"gulp-rename": "*",
+		"gulp-livereload" : "*"
+	}
+}
