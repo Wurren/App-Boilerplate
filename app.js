@@ -20,13 +20,8 @@ var  express        = require('express'),
 |--------------------------------------------------------------------------
 */
 
-var env = process.env.NODE_ENV || 'development';
+var config = require('./app/config/config');
 
-if ( env ==='development' ) {
-     var config = require('./app/config/development.js');
-} else {
-     var config = require('./app/config/production.js');
-}
 
 
 /*
@@ -62,6 +57,23 @@ app.use(require('express-promise')());
 
 
 
+/*
+|--------------------------------------------------------------------------
+| Bootstrap Single Routes
+|--------------------------------------------------------------------------
+*/
+
+var routes = [
+     'index',
+     'auth',
+     'forgotten'
+];
+
+_.each(routes, function(file, index) {
+     require('./app/routes/' + file)(app);
+});
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -87,22 +99,6 @@ _.each(fs.readdirSync('./app/controllers/'), function(file, index) {
           if ( typeof controller[mapping.method] == 'function' ) router[mapping.verb](mapping.route, controller[mapping.method]);
      });
      app.use('/' + file.slice(0, -3), router);
-});
-
-
-/*
-|--------------------------------------------------------------------------
-| Bootstrap Single Routes
-|--------------------------------------------------------------------------
-*/
-
-var routes = [
-     'index',
-     'auth'
-];
-
-_.each(routes, function(file, index) {
-     require('./app/routes/' + file)(app);
 });
 
 

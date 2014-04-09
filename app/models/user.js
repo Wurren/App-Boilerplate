@@ -12,8 +12,8 @@ var  mongoose  = require('mongoose'),
 var userSchema = new Schema({
      firstName:     { type: String },
      lastName:      { type: String },
-     email:         { type: String },
-     password:      { type: String },
+     email:         { type: String, required : 'An Email Address is required' },
+     password:      { type: String, required : 'A password is required' },
      token:         { type: String },
      secret:        { type: String },
      created_at:    { type: Date, default: Date.now },
@@ -65,10 +65,15 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 |--------------------------------------------------------------------------
 */
 
-userSchema.path('email').validate(function (value, respond) {                                                                                          
-    this.model('User').findOne({ email: value }, function (err, user) {                                                                                                
-        (user) ? respond(false) : respond(true);                                                                                                                        
-    });                                                                                                                                                  
+userSchema.path('email').validate(function (value, respond) { 
+    if(this.email === value) {
+          respond(true);       
+     } else {
+          this.model('User').findOne({ email: value }, function (err, user) {                                                                                                
+            (user) ? respond(false) : respond(true);                                                                                                                        
+          });     
+     }                                                                 
+                                                                                                                                               
 }, 'This Email Address is already in use');
 
 

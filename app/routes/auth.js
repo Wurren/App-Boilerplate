@@ -1,5 +1,6 @@
-var  passport = require('passport'),
-     User = require('../models/user');
+var  passport  = require('passport'),
+     User      = require('../models/user'),
+     _         = require('lodash');
 
 module.exports = function(app) {
 
@@ -66,7 +67,11 @@ module.exports = function(app) {
                password: req.body.password,
           }).save(function(err, user) {
                if(err) {
-                    req.flash('errors', err)
+                    var errors = [];
+                    _.each(err.errors, function(val, key) {
+                         errors.push(val);
+                    });
+                    req.flash('errors', errors)
                     return res.redirect('/signup');
                } else {
                     res.redirect('/login');

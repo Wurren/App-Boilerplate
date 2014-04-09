@@ -1,0 +1,24 @@
+{% extends '../layout.html' %}
+
+{% block content %}
+
+	<h1>Hey {{ user.email }}</h1>
+	<p>Enter your shiny new password. Dont Forget this time!</p>
+	<div id="forgot">
+		<form action="/forgotten/reset/{{ token._id }}" method="post">
+			<div class="field-wrap clearfix">
+				<input type="password" name="password" id="password" class="field" placeholder="Password">
+			</div>
+			<div class="field-wrap clearfix">
+				<input type="password" name="compare" id="compare" class="field" placeholder="Confirm Password">
+			</div>
+			{% if error.length > 0 %}
+					<div class="alert alert-danger error">{{ error }}</div>
+			{% endif %}
+			<div class="submit-wrap clearfix">
+				<input type="submit" class="btn btn-home" value="Update">
+			</div>
+		</form>
+	</div>
+
+{% endblock %}

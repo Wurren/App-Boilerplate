@@ -22,6 +22,8 @@
           "lodash" : "*",
           "mongoose" : "*",
           "express-promise" : "*",
+          "sendgrid" : "*",
+          "moment" : "*",
 
           "passport" : "*",
           "passport-twitter" : "*",

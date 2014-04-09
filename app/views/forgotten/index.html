@@ -1,0 +1,22 @@
+{% extends '../layout.html' %}
+
+{% block content %}
+
+	<h1>Forgotten your password?</h1>
+	<p>Enter your email and we'll help you out.</p>
+	
+	<div id="forgot">
+		<form action="/forgotten" method="post">
+			<div class="field-wrap clearfix">
+				<input type="text" name="email" id="email" class="field" placeholder="Email Address">
+			</div>
+			{% if error.length > 0 %}
+					<div class="alert alert-danger error">{{ error }}</div>
+			{% endif %}
+			<div class="submit-wrap clearfix">
+				<input type="submit" class="btn btn-home" value="Send me my Reset!">
+			</div>
+		</form>
+	</div>
+
+{% endblock %}

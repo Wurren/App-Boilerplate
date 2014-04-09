@@ -13,7 +13,7 @@ module.exports = function(app) {
           res.redirect('/');
      }
 
-     app.all('/admin/*', Authed);
+     app.all('/admin*', Authed);
           app.use(function(req, res, next){
           res.locals.admin = req.user;
           next();
