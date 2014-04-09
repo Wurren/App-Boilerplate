@@ -146,5 +146,6 @@ mongoose.connect(config.database);
 |--------------------------------------------------------------------------
 */
 
+console.log('Running on 3000...');
 app.listen(3000);
 
