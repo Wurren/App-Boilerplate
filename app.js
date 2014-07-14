@@ -63,15 +63,7 @@ app.use(require('express-promise')());
 |--------------------------------------------------------------------------
 */
 
-var routes = [
-     'index',
-     'auth',
-     'forgotten'
-];
-
-_.each(routes, function(file, index) {
-     require('./app/routes/' + file)(app);
-});
+var Routes = require('./app/routes')(app);
 
 
 
@@ -120,7 +112,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-     User.findOne({ _id: id }).populate('restaurant').exec(function (err, user) {
+     User.findOne({ _id: id }, function (err, user) {
           if(!err) done(null, user);
           else done(err, null)  
      });
