@@ -17,19 +17,18 @@ module.exports = function(passport, User, config) {
           }, 
           function(accessToken, refreshToken, profile, done) {
                User.findOne({ uid: profile.id }, function(err, user) {
-                    if(user) {
+                    if(user) return done(null, user);
+
+                    var user = new User({
+                         uid:      profile.id,
+                         token:    accessToken,
+                         secret:   refreshToken
+                    }).save(function(err, user) {
+                         if(err) { throw err; }
+                         console.log(err);
                          done(null, user);
-                    } else {
-                         var user = new User({
-                              uid:      profile.id,
-                              token:    accessToken,
-                              secret:   refreshToken
-                         }).save(function(err, user) {
-                              if(err) { throw err; }
-                              console.log(err);
-                              done(null, user);
-                         });
-                    }
+                    });
+
                });
           }
      ));

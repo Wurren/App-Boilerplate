@@ -18,16 +18,9 @@ passport.use(new LocalStrategy({
           
           User.findOne({ email: email }, function(err, user) {
 
-               if (err) { return done(err); }
+               if (err) return done(err); 
 
-               if (!user) {
-                    return done(null, false, { message: 'Incorrect email.' });
-               }
-
-               // user.comparePassword(password, function(err, isMatch) {
-               //   if (err) throw err;
-               //   return (isMatch) ? done(null, user) : done(null, false, { message: 'Incorrect password.' });
-               // });
+               if (!user) return done(null, false, { message: 'Incorrect email.' });
 
                if (!user.authenticate(password)) {
                     return done(null, false, {
@@ -38,6 +31,7 @@ passport.use(new LocalStrategy({
                return done(null, user);
 
           });
+          
      }
 ));
 
