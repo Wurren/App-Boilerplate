@@ -33,8 +33,6 @@ var userSchema = new Schema({
           type: String 
      },
 
-     // privilege:  { type: Number },
-
      email: { 
           type:     String, 
           match:    [/.+\@.+\..+/, 'Please enter a valid email'], 
@@ -53,8 +51,17 @@ var userSchema = new Schema({
           default:  'local'
      },
 
-     facebook: {},
-     twitter:  {},
+     facebook: {
+     	id: 		String,
+     	token: 	String,
+     	refreshToken: String
+     },
+
+     twitter:  {
+		id: 		String,
+     	token: 	String,
+     	tokenSecret: String
+     },
 
      created_at: { 
           type:     Date, 
@@ -120,9 +127,7 @@ userSchema.pre('save', function(next) {
 */
 
 userSchema.path('email').validate(function (value, respond) {       
-     if( this.email === value ) {
-          return respond(true);
-     }                                                                                    
+    if( this.email === value ) return respond(true);                                                                                   
     this.model('User').findOne({ email: value }, function (err, user) {                                                                                                
         (user) ? respond(false) : respond(true);                                                                                                                        
     });                                                                                                                                                  
@@ -153,12 +158,6 @@ userSchema.methods = {
           if (!password || !this.salt) return '';
           var salt = new Buffer(this.salt, 'base64');
           return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
-     },
-
-     checkEmail: function(email) {
-          this.model('User').findOne({ email: value }, function (err, user) {                                                                                                
-             (user) ? respond(false) : respond(true);                                                                                                                        
-         });    
      }
 
 };

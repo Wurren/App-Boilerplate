@@ -16,14 +16,16 @@ module.exports = function(passport, User, config) {
           },
           function(token, tokenSecret, profile, done) {
 
-               User.findOne({ uid: profile.id }, function(err, user) {
-               	
+               User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
+
                     if(user) return done(null, user);
 
                     var user = new User({
-                         uid:      profile.id,
-                         token:    token,
-                         secret:   tokenSecret
+                         twitter : {
+	               		id: profile.id,
+	               		token: token,
+	               		tokenSecret: tokenSecret
+               		}	
                     }).save(function(err, user) {
                          if(err) { throw err; }
                          done(null, user);

@@ -16,16 +16,17 @@ module.exports = function(passport, User, config) {
           callbackURL:   config.callbackURL
           }, 
           function(accessToken, refreshToken, profile, done) {
-               User.findOne({ uid: profile.id }, function(err, user) {
+               User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
                     if(user) return done(null, user);
 
                     var user = new User({
-                         uid:      profile.id,
-                         token:    accessToken,
-                         secret:   refreshToken
+                    	facebook {
+	                         id:      profile.id,
+	                         token:    accessToken,
+	                         refreshToken:   refreshToken
+                    	}
                     }).save(function(err, user) {
                          if(err) { throw err; }
-                         console.log(err);
                          done(null, user);
                     });
 
