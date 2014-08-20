@@ -1,5 +1,5 @@
 
-var passport  	= require('passport'),
+var 	passport  	= require('passport'),
 	Home 		= require('./controllers/home'),
 	Admin 		= require('./controllers/admin'),
 	Forgotten 	= require('./controllers/forgotten'),
@@ -108,6 +108,7 @@ module.exports = function(app) {
 	| Auth Failure
 	|--------------------------------------------------------------------------
 	*/
+
 	app.get('/failure', function(req, res) {
 		res.send(500);
 	});
